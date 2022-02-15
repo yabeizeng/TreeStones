@@ -106,18 +106,11 @@ image[][8]={
   B00001000,
   B00011100
 }};
-static const uint8_t PROGMEM
-blank[]={
-  B00000000,
-  B00000000,
-  B00000000,
-  B00000000,
-  B00000000,
-  B00000000,
-  B00000000,
-  B00000000
-};
 
+//x controls whether there are two 8*8 bitmaps or only one
+//if x = 0, there will only be one bitmap
+//if x = 0, then j control whether the bitmap will be displayed 
+//in the upper part or the lower part
 void imagedisplay(int i,int j, int x){
   if(x==0){
     if(j<5){
@@ -147,8 +140,9 @@ char *myStrs[] = {"Hello","World",
 "string", "land","water",
 "Earth","Ocean"};
 
+// j controls whether the text will be displayed horizontally or vertically
 void wordDisplay(int i, int j){
-  if(j == 1){
+  if(j < 5){
     matrix.setTextSize(1);
     matrix.setTextWrap(false);
     matrix.setTextColor(LED_ON);
@@ -181,15 +175,18 @@ void loop(){
   imagedisplay(x,y,0);
   delay(500);
 
-  
-  matrix.clear();
-  matrix.drawBitmap(0,8,image[1],8,8, LED_ON);
+  uint8_t i = random(0,10);
+  uint8_t j = random(0,10);
+
+  imagedisplay(i,j,3);
+  delay(500);
   
   matrix.writeDisplay();
   delay(500);
 
   uint8_t a = random(0,11);
-  wordDisplay(a,2);
+  uint8_t b = random(0,10);
+  wordDisplay(a,b);
   delay(500);
   
   matrix.setRotation(0);
